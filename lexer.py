@@ -1,35 +1,35 @@
 from sly import Lexer
 
 class ProgramLexer(Lexer):
-    tokens = {PLUS,MINUS,TIMES,DIVIDE,EQCO,EQ,L,G,E,ASSIGN,INT,ID,IF,ELSE,PRINT,GRAMSYNTAX}
+    tokens = {NUMBERS, ID, PLUS, MINUS, MULTIPLY, DIVIDE, EQCO, ASSIGN, LE, LT, GE, GT, IF, ELSE, PRINT, WHILE, FOR}
     literals = { '(', ')', '{', '}', ';' }
+    ignore = " \t"
 
-    ignore = ' \t'
+    PLUS = r'\+'
+    MINUS = r'-'
+    MULTIPLY = r'\*'
+    DIVIDE = r'/'
+    EQCO = r'=='
+    ASSIGN = r'='
+    LE = r'<='
+    LT = r'<'
+    GE = r'>='
+    GT = r'>'
 
     @_(r'\d+')
-    def INT(self,t):
+    def NUMBER(self,t):
         t.value = int(t.value)
         return t
 
-    ID = r'[a-zA-Z_][a-zA-Z0-9_]*'
-    ID['if']        = IF
-    ID['else']      = ELSE
-    ID['show']      = PRINT
-    ID['I']         = GRAMSYNTAX
-    ID['declare']   = ASSIGN
-    ID['plus']      = PLUS
-    ID['minus']     = MINUS
-    ID['times']     = TIMES
-    ID['divide']    = DIVIDE
-    ID['equals']    = EQCO
-    ID['equal']     = EQ
-    ID['less']      = L
-    ID['greater']   = G
-    ID['orr']       = GRAMSYNTAX
-    ID['to']        = GRAMSYNTAX
-    ID['is']        = GRAMSYNTAX
+    ID = r'[a-zA-Z][a-zA-Z0-9]*'
+    ID['if'] = IF
+    ID['else'] = ELSE
+    ID['print'] = PRINT
+    ID['while'] = WHILE
+    ID['for'] = FOR
 
-    # Line number tracking    
+    ignore_comment = r'\#.*'
+
     @_(r'\n+')
     def ignore_newline(self, t):
         self.lineno += t.value.count('\n')
@@ -38,7 +38,8 @@ class ProgramLexer(Lexer):
         print('Line %d: Bad character %r' % (self.lineno, t.value[0]))
         self.index += 1
 
-if __name__ == '__main__':
+    
+if __name__ == "__main__":
     lexer = ProgramLexer()
     env = {}
     while True:
