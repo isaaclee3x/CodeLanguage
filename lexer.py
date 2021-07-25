@@ -1,7 +1,7 @@
 from sly import Lexer
 
 class ProgramLexer(Lexer):
-    tokens = {NUMBERS, ID, PLUS, MINUS, MULTIPLY, DIVIDE, EQCO, ASSIGN, LE, LT, GE, GT, IF, ELSE, PRINT, WHILE, FOR}
+    tokens = {NUMBERS, ID, PLUS, MINUS, MULTIPLY, DIVIDE, EQCO, ASSIGN, LE, LT, GE, GT, IF, ELSE, PRINT, WHILE, FOR, VAR}
     literals = { '(', ')', '{', '}', ';' }
     ignore = " \t"
 
@@ -27,6 +27,7 @@ class ProgramLexer(Lexer):
     ID['print'] = PRINT
     ID['while'] = WHILE
     ID['for'] = FOR
+    ID['var'] = VAR
 
     ignore_comment = r'\#.*'
 
